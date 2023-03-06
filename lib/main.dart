@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/signup_screen.dart';
-import 'screens/login_screen.dart';
+import 'screens/task_menu.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xFF706897),
       ),
-      home: const LoginScreen(),
+      home: const TaskMenu(),
     );
   }
 }

@@ -17,7 +17,7 @@ class SignupScreen extends StatelessWidget {
                   onTap: () {},
                   child: Container(
                     width: 50,
-                    padding: EdgeInsets.all(10),
+                    padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: const Color(0xFF919399),
@@ -25,13 +25,13 @@ class SignupScreen extends StatelessWidget {
                       shape: BoxShape.circle,
                     ),
                     alignment: Alignment.center,
-                    child: Icon(Icons.arrow_back),
+                    child: const Icon(Icons.arrow_back),
                   ),
                 ),
                 Container(
                   width: 190,
-                  margin: EdgeInsets.only(top: 25),
-                  child: Text(
+                  margin: const EdgeInsets.only(top: 25),
+                  child: const Text(
                     'Hello! Signup to get started',
                     style: TextStyle(
                       fontSize: 36,
@@ -40,7 +40,7 @@ class SignupScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 50),
+                  margin: const EdgeInsets.only(top: 50),
                   child: TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -53,12 +53,12 @@ class SignupScreen extends StatelessWidget {
                       ),
                       hintText: 'Enter your name',
                       filled: true,
-                      fillColor: Color(0xFFe7e6f5),
+                      fillColor: const Color(0xFFe7e6f5),
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10),
                   child: TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -71,12 +71,12 @@ class SignupScreen extends StatelessWidget {
                       ),
                       hintText: 'Enter email address',
                       filled: true,
-                      fillColor: Color(0xFFe7e6f5),
+                      fillColor: const Color(0xFFe7e6f5),
                     ),
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 10),
+                  margin: const EdgeInsets.only(top: 10),
                   child: TextField(
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
@@ -89,26 +89,18 @@ class SignupScreen extends StatelessWidget {
                       ),
                       hintText: "Enter password",
                       filled: true,
-                      fillColor: Color(0xFFe7e6f5),
+                      fillColor: const Color(0xFFe7e6f5),
                     ),
                     obscureText: true,
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(top: 20),
+                  margin: const EdgeInsets.only(top: 20),
                   child: SizedBox(
                     width: 1000,
                     height: 60,
                     child: TextButton(
                       onPressed: () {},
-                      child: Text(
-                        'GET STARTED',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFe7e6f5),
-                        ),
-                      ),
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all<Color>(
                             const Color(0xFF706897)),
@@ -119,14 +111,22 @@ class SignupScreen extends StatelessWidget {
                           ),
                         ),
                       ),
+                      child: const Text(
+                        'GET STARTED',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFFe7e6f5),
+                        ),
+                      ),
                     ),
                   ),
                 ),
                 Row(
                   children: [
                     Container(
-                      margin: EdgeInsets.only(top: 20, left: 30),
-                      child: Text(
+                      margin: const EdgeInsets.only(top: 20, left: 30),
+                      child: const Text(
                         'ALREADY HAVE AN ACCOUNT?',
                         style: TextStyle(
                           fontSize: 16,
@@ -138,9 +138,9 @@ class SignupScreen extends StatelessWidget {
                       onTap: () {},
                       child: Container(
                         width: 60,
-                        margin: EdgeInsets.only(top: 20),
+                        margin: const EdgeInsets.only(top: 20),
                         alignment: Alignment.center,
-                        child: Text(
+                        child: const Text(
                           'LOG IN',
                           style: TextStyle(
                             fontSize: 16,

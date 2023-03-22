@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OpenTaskScreen extends StatefulWidget {
   const OpenTaskScreen({super.key});
@@ -8,6 +10,17 @@ class OpenTaskScreen extends StatefulWidget {
 }
 
 class _OpenTaskScreen extends State<OpenTaskScreen> {
+  DateTime selectedDate = DateTime.now();
+  bool isFirst = true;
+  final TextEditingController taskcontroller = TextEditingController();
+  final TextEditingController timecontroller = TextEditingController();
+  late final SharedPreferences prefs;
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) => prefs = value);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,11 +29,14 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
           margin: const EdgeInsets.only(left: 250),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: const [
-              Icon(
-                Icons.check,
-                color: Color(0xFF7f8083),
-                size: 30,
+            children: [
+              InkWell(
+                child: Icon(
+                  Icons.check,
+                  color: Color(0xFF7f8083),
+                  size: 30,
+                ),
+                onTap: addTask,
               ),
               Icon(
                 Icons.delete,
@@ -39,7 +55,7 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
             ),
             shape: BoxShape.circle,
           ),
-          alignment: Alignment.centerRight,
+          alignment: Alignment.center,
           child: const Icon(
             Icons.arrow_back,
             color: Color(0xFF4e5158),
@@ -57,48 +73,39 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: const [
-                  Text(
-                    'Praktikum Module 3',
-                    style: TextStyle(fontSize: 18),
-                  ),
-                  Icon(
-                    Icons.star,
-                    color: Color(0xFFdfdfe0),
-                    size: 30,
-                  ),
-                ],
-              ),
-              SizedBox(height: 30),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Icon(
                     Icons.calendar_month,
                     color: Color(0xFF9088d4),
                     size: 30,
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Expanded(
-                    child: TextField(
-                      decoration: InputDecoration(
-                        border: OutlineInputBorder(
+                    child: InkWell(
+                      child: Container(
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
+                          color: const Color(0xFFe7e6f5),
                         ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(15),
-                          borderSide: BorderSide.none,
+                        alignment: Alignment.centerLeft,
+                        height: 60,
+                        child: Container(
+                          margin: const EdgeInsets.only(left: 12),
+                          child: Text(
+                            isFirst
+                                ? 'Set time'
+                                : dateTimeConvert(selectedDate),
+                            style: const TextStyle(
+                                fontSize: 17, color: Color(0xFF7b7f88)),
+                          ),
                         ),
-                        hintText: 'Set time',
-                        filled: true,
-                        fillColor: const Color(0xFFe7e6f5),
                       ),
+                      onTap: () => _selectDate(context),
                     ),
                   ),
                 ],
               ),
-              SizedBox(height: 15),
+              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -107,9 +114,10 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
                     color: Color(0xFF7f8184),
                     size: 30,
                   ),
-                  SizedBox(width: 15),
+                  const SizedBox(width: 15),
                   Expanded(
                     child: TextField(
+                      controller: taskcontroller,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(15),
@@ -119,7 +127,7 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
                           borderRadius: BorderRadius.circular(15),
                           borderSide: BorderSide.none,
                         ),
-                        hintText: 'Add sub tasks',
+                        hintText: 'Add tasks',
                         filled: true,
                         fillColor: const Color(0xFFe7e6f5),
                       ),
@@ -132,5 +140,41 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
         ),
       ),
     );
+  }
+
+  void _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate) {
+      setState(() {
+        selectedDate = picked;
+      });
+    }
+    if (isFirst) {
+      setState(() {
+        isFirst = false;
+      });
+    }
+  }
+
+  String dateTimeConvert(DateTime date) {
+    return DateFormat('dd-MM-yyyy').format(date);
+  }
+
+  void addTask() async {
+    String addtask = taskcontroller.text;
+    String addtime = selectedDate.toString();
+    Map<String, Object> task = {
+      'taskname': addtask,
+      'time': addtime,
+      'radio': true
+    };
+    List<Map<String, Object>> listTask = [];
+    listTask.add(task);
+    await prefs.setString('listTask', listTask.toString());
   }
 }

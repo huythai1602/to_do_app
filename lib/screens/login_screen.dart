@@ -1,7 +1,27 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class LoginScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/screens/signup_screen.dart';
+
+import 'home_screen.dart';
+
+class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  late final SharedPreferences prefs;
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) => prefs = value);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +67,7 @@ class LoginScreen extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 50),
                     child: TextField(
+                      controller: emailController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -65,6 +86,7 @@ class LoginScreen extends StatelessWidget {
                   Container(
                     margin: const EdgeInsets.only(top: 10),
                     child: TextField(
+                      controller: passwordController,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(12),
@@ -87,7 +109,7 @@ class LoginScreen extends StatelessWidget {
                       width: 1000,
                       height: 60,
                       child: TextButton(
-                        onPressed: () {},
+                        onPressed: signIn,
                         style: ButtonStyle(
                           backgroundColor: MaterialStateProperty.all<Color>(
                               const Color(0xFF706897)),
@@ -111,7 +133,11 @@ class LoginScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const SignupScreen()),
+                    ),
                     child: Container(
                       width: 300,
                       margin:
@@ -134,5 +160,23 @@ class LoginScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void signIn() async {
+    String emailSignin = emailController.text;
+    String passwordSignin = passwordController.text;
+    await prefs.setString('emailSignin', emailSignin);
+    await prefs.setString('passwordSignin', passwordSignin);
+    final String emailSignup = prefs.getString('email') ?? '';
+    final String passwordSignup = prefs.getString('password') ?? '';
+    if (emailSignin == emailSignup && passwordSignin == passwordSignup) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+        (route) => false,
+      );
+    } else {
+      log('Wrong email or password');
+    }
   }
 }

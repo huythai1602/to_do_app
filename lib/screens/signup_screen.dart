@@ -1,7 +1,31 @@
-import 'package:flutter/material.dart';
+import 'dart:developer';
 
-class SignupScreen extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/screens/login_screen.dart';
+import '../widgets/text_field_custom.dart';
+
+class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
+
+  @override
+  State<SignupScreen> createState() => _SignupScreenState();
+}
+
+class _SignupScreenState extends State<SignupScreen> {
+  late final TextEditingController nameController;
+  late final TextEditingController emailController;
+  late final TextEditingController passwordController;
+  late final SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) => prefs = value);
+    nameController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +54,7 @@ class SignupScreen extends StatelessWidget {
                 ),
                 Container(
                   width: 190,
-                  margin: const EdgeInsets.only(top: 25),
+                  margin: const EdgeInsets.only(top: 25, bottom: 30),
                   child: const Text(
                     'Hello! Signup to get started',
                     style: TextStyle(
@@ -39,27 +63,15 @@ class SignupScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(top: 50),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      hintText: 'Enter your name',
-                      filled: true,
-                      fillColor: const Color(0xFFe7e6f5),
-                    ),
-                  ),
-                ),
+                TextFieldCustom(
+                    hintText: 'Enter your name', controller: nameController),
+                TextFieldCustom(
+                    hintText: 'Enter your email address',
+                    controller: emailController),
                 Container(
                   margin: const EdgeInsets.only(top: 10),
                   child: TextField(
+                    controller: passwordController,
                     decoration: InputDecoration(
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -69,25 +81,7 @@ class SignupScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                         borderSide: BorderSide.none,
                       ),
-                      hintText: 'Enter email address',
-                      filled: true,
-                      fillColor: const Color(0xFFe7e6f5),
-                    ),
-                  ),
-                ),
-                Container(
-                  margin: const EdgeInsets.only(top: 10),
-                  child: TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
-                      ),
-                      hintText: "Enter password",
+                      hintText: "Password",
                       filled: true,
                       fillColor: const Color(0xFFe7e6f5),
                     ),
@@ -111,12 +105,15 @@ class SignupScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-                      child: const Text(
-                        'GET STARTED',
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFFe7e6f5),
+                      child: TextButton(
+                        onPressed: signUp,
+                        child: const Text(
+                          'GET STARTED',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFFe7e6f5),
+                          ),
                         ),
                       ),
                     ),
@@ -135,7 +132,11 @@ class SignupScreen extends StatelessWidget {
                       ),
                     ),
                     InkWell(
-                      onTap: () {},
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginScreen()),
+                      ),
                       child: Container(
                         width: 60,
                         margin: const EdgeInsets.only(top: 20),
@@ -156,6 +157,24 @@ class SignupScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  void signUp() async {
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    await prefs.setString('name', name);
+    await prefs.setString('email', email);
+    await prefs.setString('password', password);
+    log(name);
+    log(email);
+    log(password);
+    // ignore: use_build_context_synchronously
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+      (route) => false,
     );
   }
 }

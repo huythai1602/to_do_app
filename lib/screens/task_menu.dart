@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:todo_app/screens/open_task_screen.dart';
+import 'package:todo_app/widgets/new_task_custom.dart';
+import 'package:todo_app/widgets/radio_custom.dart';
 
 class TaskMenu extends StatefulWidget {
   const TaskMenu({super.key});
@@ -8,8 +12,16 @@ class TaskMenu extends StatefulWidget {
 }
 
 class _TaskMenuState extends State<TaskMenu> {
-  int _subject = 0;
   DateTime _dateTime = DateTime.now();
+  late final TextEditingController newController;
+  late final SharedPreferences prefs;
+
+  @override
+  void initState() {
+    super.initState();
+    SharedPreferences.getInstance().then((value) => prefs = value);
+    newController = TextEditingController();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,18 +39,21 @@ class _TaskMenuState extends State<TaskMenu> {
           ),
         ),
         toolbarHeight: 100,
-        leading: Container(
-          margin: const EdgeInsets.only(left: 15),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color(0xFF919399),
+        leading: InkWell(
+          onTap: () {},
+          child: Container(
+            margin: const EdgeInsets.only(left: 15),
+            decoration: BoxDecoration(
+              border: Border.all(
+                color: const Color(0xFF919399),
+              ),
+              shape: BoxShape.circle,
             ),
-            shape: BoxShape.circle,
-          ),
-          alignment: Alignment.centerRight,
-          child: const Icon(
-            Icons.arrow_back_ios,
-            color: Color(0xFF4e5158),
+            alignment: Alignment.center,
+            child: const Icon(
+              Icons.arrow_back,
+              color: Color(0xFF4e5158),
+            ),
           ),
         ),
         actions: [
@@ -108,129 +123,21 @@ class _TaskMenuState extends State<TaskMenu> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Container(
-                    margin: const EdgeInsets.only(bottom: 10, top: 10),
-                    child: const Text('Praktikum Module 3')),
-                subtitle: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      alignment: Alignment.center,
-                      height: 25,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        color: const Color(0xFF9088d4),
-                      ),
-                      child: const Text('Today | 23.59',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                    const Spacer()
-                  ],
-                ),
-                value: 0,
-                groupValue: _subject,
-                onChanged: (newValue) {
-                  setState(() {
-                    _subject = int.parse(newValue.toString());
-                  });
-                },
+              const RadioCustom(
+                titleName: 'Praktikum Module 3',
+                subtitileName: 'Today | 23.59',
               ),
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Container(
-                    margin: const EdgeInsets.only(bottom: 10, top: 10),
-                    child: const Text('Interaksi Manusia dan Komputer')),
-                subtitle: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      alignment: Alignment.center,
-                      height: 25,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        color: const Color(0xFF9088d4),
-                      ),
-                      child: const Text('Monday, 24 Sept 2020 | 23.59',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                    const Spacer()
-                  ],
-                ),
-                value: 1,
-                groupValue: _subject,
-                onChanged: (newValue) {
-                  setState(() {
-                    _subject = int.parse(newValue.toString());
-                  });
-                },
+              const RadioCustom(
+                titleName: 'Interaksi Manusia dan Komputer',
+                subtitileName: 'Monday, 24 Sept 2020 | 23.59',
               ),
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Container(
-                    margin: const EdgeInsets.only(bottom: 10, top: 10),
-                    child: const Text('Jangringan Komputer')),
-                subtitle: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      alignment: Alignment.center,
-                      height: 25,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        color: const Color(0xFF9088d4),
-                      ),
-                      child: const Text('Friday, 28 Sept 2020 | 23.59',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                    const Spacer()
-                  ],
-                ),
-                value: 2,
-                groupValue: _subject,
-                onChanged: (newValue) {
-                  setState(() {
-                    _subject = int.parse(newValue.toString());
-                  });
-                },
+              const RadioCustom(
+                titleName: 'Jangringan Komputer',
+                subtitileName: 'Friday, 28 Sept 2020 | 23.59',
               ),
-              RadioListTile(
-                contentPadding: EdgeInsets.zero,
-                title: Container(
-                    margin: const EdgeInsets.only(bottom: 10, top: 10),
-                    child: const Text('Interaksi Manusia dan Komputer')),
-                subtitle: Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      alignment: Alignment.center,
-                      height: 25,
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        color: const Color(0xFF9088d4),
-                      ),
-                      child: const Text('Saturday, 29 Sept 2020 | 23.59',
-                          style: TextStyle(color: Colors.white)),
-                    ),
-                    const Spacer()
-                  ],
-                ),
-                value: 3,
-                groupValue: _subject,
-                onChanged: (newValue) {
-                  setState(() {
-                    _subject = int.parse(newValue.toString());
-                  });
-                },
+              const RadioCustom(
+                titleName: 'Interaksi Manusia dan Komputer',
+                subtitileName: 'Saturday, 29 Sept 2020 | 23.59',
               ),
               Container(
                 margin: const EdgeInsets.only(top: 20, bottom: 15),
@@ -257,70 +164,11 @@ class _TaskMenuState extends State<TaskMenu> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: UniqueKey().toString(),
         onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            builder: (BuildContext context) {
-              return Container(
-                margin: const EdgeInsets.only(top: 20, left: 25),
-                height: 200,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'New Task',
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                    Container(
-                      width: 360,
-                      margin: const EdgeInsets.only(top: 20, bottom: 10),
-                      child: TextField(
-                        decoration: InputDecoration(
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none,
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(15),
-                            borderSide: BorderSide.none,
-                          ),
-                          hintText: 'New Task',
-                          filled: true,
-                          fillColor: const Color(0xFFe7e6f5),
-                        ),
-                        obscureText: true,
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        IconButton(
-                          onPressed: _showDatePicker,
-                          icon: const Icon(
-                            Icons.calendar_month,
-                            color: Color(0xFF9088d4),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.star,
-                          color: Color(0xFFdfdfe0),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.only(right: 20, left: 245),
-                          child: const Text(
-                            'Save',
-                            style: TextStyle(
-                              fontSize: 18,
-                              color: Color(0xFFdfdfe0),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              );
-            },
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const OpenTaskScreen()),
           );
         },
         backgroundColor: const Color(0xFF9088d4),
@@ -329,7 +177,7 @@ class _TaskMenuState extends State<TaskMenu> {
     );
   }
 
-  void _showDatePicker() {
+  void _showDatePicker(BuildContext context) {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),

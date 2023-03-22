@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'screens/open_task_screen.dart';
+import 'package:todo_app/screens/signup_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primaryColor: const Color(0xFF706897),
       ),
-      home: const OpenTaskScreen(),
+      home: const SignupScreen(),
     );
   }
 }

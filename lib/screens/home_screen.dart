@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:todo_app/screens/task_menu.dart';
+import 'package:todo_app/widgets/task_custom.dart';
 
 class HomeScreen extends StatelessWidget {
   HomeScreen({super.key});
@@ -100,16 +102,21 @@ class HomeScreen extends StatelessWidget {
               const Spacer(),
               Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Help',
-                  style: TextStyle(fontSize: 16),
-                ),
+                child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      'Help',
+                      style: TextStyle(fontSize: 16),
+                    )),
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                child: const Text(
-                  'Sign out',
-                  style: TextStyle(fontSize: 16, color: Colors.red),
+                child: TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Sign out',
+                    style: TextStyle(fontSize: 16, color: Colors.red),
+                  ),
                 ),
               ),
             ],
@@ -165,117 +172,61 @@ class HomeScreen extends StatelessWidget {
                   crossAxisSpacing: 30.0,
                   mainAxisSpacing: 20.0,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color(0xFFf6c192),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TaskMenu()),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: const Color(0xFFfdfdfd)),
-                            child: const Icon(
-                              Icons.favorite,
-                              color: Color(0xFFf6c192),
-                            ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Daily Tasks',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFf9e4d6)),
-                          ),
-                        ],
+                      child: const TaskCustom(
+                        taskIcon: Icon(
+                          Icons.favorite,
+                          color: Color(0xFFf6c192),
+                        ),
+                        taskColor: Color(0xFFf6c192),
+                        taskName: 'Daily Tasks',
                       ),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color(0xFF81b2f3),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TaskMenu()),
                       ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: const Color(0xFFfdfdfd)),
-                            child: const Icon(
-                              Icons.work,
-                              color: Color(0xFF81b2f3),
-                            ),
+                      child: const TaskCustom(
+                          taskColor: Color(0xFF81b2f3),
+                          taskIcon: Icon(
+                            Icons.work,
+                            color: Color(0xFF81b2f3),
                           ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'School Tasks',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFf9e4d6)),
-                          ),
-                        ],
-                      ),
+                          taskName: 'School Tasks'),
                     ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color(0xFFf29999),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: const Color(0xFFfdfdfd)),
-                            child: const Icon(
+                    InkWell(
+                        onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const TaskMenu()),
+                            ),
+                        child: const TaskCustom(
+                            taskColor: Color(0xFFf29999),
+                            taskIcon: Icon(
                               Icons.shopping_cart,
                               color: Color(0xFFf29999),
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'Shopping List',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFf9e4d6)),
-                          ),
-                        ],
+                            taskName: 'Shopping List')),
+                    InkWell(
+                      onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TaskMenu()),
                       ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(30),
-                        color: const Color(0xFFc9c6e8),
-                      ),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(100),
-                                color: const Color(0xFFfdfdfd)),
-                            child: const Icon(
-                              Icons.add,
-                              color: Color(0xFF81b2f3),
-                            ),
+                      child: const TaskCustom(
+                          taskColor: Color(0xFF9088d4),
+                          taskIcon: Icon(
+                            Icons.add,
+                            color: Color(0xFF9088d4),
                           ),
-                          const SizedBox(height: 10),
-                          const Text(
-                            'More Tasks',
-                            style: TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                                color: Color(0xFFf9e4d6)),
-                          ),
-                        ],
-                      ),
+                          taskName: 'More Tasks'),
                     ),
                   ],
                 ),

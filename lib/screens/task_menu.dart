@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo_app/screens/open_task_screen.dart';
-import 'package:todo_app/widgets/new_task_custom.dart';
 import 'package:todo_app/widgets/radio_custom.dart';
 
 class TaskMenu extends StatefulWidget {

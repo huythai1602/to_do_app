@@ -31,14 +31,14 @@ class _OpenTaskScreen extends State<OpenTaskScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               InkWell(
-                child: Icon(
+                onTap: addTask,
+                child: const Icon(
                   Icons.check,
                   color: Color(0xFF7f8083),
                   size: 30,
                 ),
-                onTap: addTask,
               ),
-              Icon(
+              const Icon(
                 Icons.delete,
                 color: Color(0xFF7f8083),
                 size: 30,
